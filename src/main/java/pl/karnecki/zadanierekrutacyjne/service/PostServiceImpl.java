@@ -6,6 +6,7 @@ import pl.karnecki.zadanierekrutacyjne.model.Post;
 import pl.karnecki.zadanierekrutacyjne.repository.PostRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +29,14 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> getPosts() {
         return postRepository.getPostList();
+    }
+
+    @Override
+    public Optional<Post> getPostById(Integer id) {
+        return postRepository.getPostList()
+                .stream()
+                .filter(post -> post.getId().equals(id))
+                .findFirst();
     }
 
     @Override
