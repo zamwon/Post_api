@@ -1,9 +1,11 @@
 package pl.karnecki.zadanierekrutacyjne.repository;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.RestTemplate;
 import pl.karnecki.zadanierekrutacyjne.model.Post;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +17,12 @@ public class PostRepository {
 
     public PostRepository() {
         this.postList = new ArrayList<>();
+        RestTemplate restTemplate = new RestTemplate();
+
+        Post[] forObject = restTemplate.getForObject("https://jsonplaceholder.typicode.com/posts", Post[].class);
+
+        assert forObject != null;
+        postList.addAll(Arrays.asList(forObject));
     }
 
     public List<Post> getPostList() {
@@ -35,13 +43,13 @@ public class PostRepository {
         return postList.add(post);
     }
 
-    public boolean removePostFromList(int id) {
+    public boolean removePostFromList(Integer id) {
         Optional<Post> postOptional = postList.stream()
                 .filter(oldPost -> oldPost.getId().equals(id))
                 .findFirst();
 
         if (postOptional.isPresent()) {
-            postList.remove(id);
+            postList.remove(id.intValue());
             return true;
         }
         return false;

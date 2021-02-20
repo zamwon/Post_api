@@ -26,6 +26,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<Post> getPosts() {
+        return postRepository.getPostList();
+    }
+
+    @Override
     public List<Post> getPostsByTitle(String title) {
         return postRepository.getPostList()
                 .stream()
@@ -35,23 +40,20 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public boolean savePost(Post post) {
-
-        boolean isPostOnList = isPostOnList(post);
-        if (isPostOnList) return false;
+        if (isPostOnList(post)) return false;
         postRepository.addPostToList(post);
         return true;
     }
 
     @Override
-    public boolean deletePost(int id) {
+    public boolean deletePost(Integer id) {
         postRepository.removePostFromList(id);
         return true;
     }
 
     @Override
     public boolean modifyPost(Post post) {
-        boolean isPostOnList = isPostOnList(post);
-        if (isPostOnList) {
+        if (isPostOnList(post)) {
             postRepository.modify(post);
             return true;
         } else

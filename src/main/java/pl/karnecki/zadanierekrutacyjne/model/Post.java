@@ -1,6 +1,7 @@
 
 package pl.karnecki.zadanierekrutacyjne.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Post {
 
     @JsonProperty("userId")
+    @JsonIgnore
     private Integer userId;
     @JsonProperty("id")
     private Integer id;
@@ -23,10 +25,10 @@ public class Post {
     private String title;
     @JsonProperty("body")
     private String body;
-    @JsonIgnore
 
 
     @JsonProperty("userId")
+    @JsonIgnore
     public Integer getUserId() {
         return userId;
     }
@@ -65,7 +67,6 @@ public class Post {
     public void setBody(String body) {
         this.body = body;
     }
-
 
     @Override
     public String toString() {

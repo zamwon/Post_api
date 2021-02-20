@@ -7,11 +7,13 @@ import java.util.List;
 
 public interface PostService {
 
+    List<Post> getPosts();
+
     List<Post> getPostsByTitle(String title);
 
     boolean savePost(Post post);
 
-    boolean deletePost(int id);
+    boolean deletePost(Integer id);
 
     boolean modifyPost(Post post);
 }
