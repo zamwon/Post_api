@@ -35,7 +35,7 @@ Zadanie rekrutacyjne
 
 ## Setup
  Baza danych postawiona na remotemysql.com - dane umieszczone w resources.appplication.properties
- 
+Api posiada zaimplementowana obsluge swagger ui dla ułatwienia korzystania z aplikacji. 
 
 http://localhost:8080/swagger-ui.html
 
