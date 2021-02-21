@@ -18,12 +18,11 @@ import java.util.Optional;
 public class PostController {
 
     private final PostServiceImpl postService;
-    private RestTemplate template;
+
 
     @Autowired
     public PostController(PostServiceImpl postService) {
         this.postService = postService;
-        this.template = new RestTemplate();
 
     }
 
