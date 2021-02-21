@@ -3,12 +3,14 @@ package pl.karnecki.zadanierekrutacyjne.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import pl.karnecki.zadanierekrutacyjne.model.Post;
 import pl.karnecki.zadanierekrutacyjne.service.PostServiceImpl;
+
 import java.util.List;
 import java.util.Optional;
-
 
 
 @RestController
@@ -16,14 +18,17 @@ import java.util.Optional;
 public class PostController {
 
     private final PostServiceImpl postService;
+    private RestTemplate template;
 
     @Autowired
     public PostController(PostServiceImpl postService) {
         this.postService = postService;
+        this.template = new RestTemplate();
 
     }
 
     @GetMapping
+    @Scheduled(cron = "0 0 */24 * * *")
     public ResponseEntity<List<Post>> getPosts() {
         return new ResponseEntity<>(postService.getPosts(), HttpStatus.OK);
     }
@@ -45,6 +50,7 @@ public class PostController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 
     @PatchMapping("/{id}")
     public ResponseEntity<HttpStatus> modifyPost(@PathVariable Integer id, @RequestBody Post post) {

@@ -13,11 +13,12 @@ import java.util.Optional;
 public class PostRepository {
 
 
-    List<Post> postList;
+    private List<Post> postList;
+    private RestTemplate restTemplate;
 
     public PostRepository() {
         this.postList = new ArrayList<>();
-        RestTemplate restTemplate = new RestTemplate();
+        this.restTemplate = new RestTemplate();
 
         Post[] forObject = restTemplate.getForObject("https://jsonplaceholder.typicode.com/posts", Post[].class);
 
@@ -32,6 +33,7 @@ public class PostRepository {
     public void setPostList(List<Post> postList) {
         this.postList = postList;
     }
+
     public boolean addPostToList(Post post) {
         Optional<Post> postOptional = postList.stream()
                 .filter(oldPost -> oldPost.getId().equals(post.getId()))
