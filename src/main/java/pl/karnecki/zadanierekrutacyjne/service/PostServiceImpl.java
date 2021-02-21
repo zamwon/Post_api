@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 @Service
 public class PostServiceImpl implements PostService {
 
-    //    private PostRepository postRepository;
     private PostRepo postRepository;
 
     @Autowired
@@ -66,8 +65,9 @@ public class PostServiceImpl implements PostService {
                 .filter(oldPost -> oldPost.getId().equals(post.getId()))
                 .findFirst();
         if (postOptional.isPresent()) {
-            postRepository.delete(postOptional.get());
-            postRepository.save(post);
+            postOptional.get().setTitle(post.getTitle());
+            postOptional.get().setBody(post.getBody());
+            postRepository.save(postOptional.get());
             return true;
         }
         return false;

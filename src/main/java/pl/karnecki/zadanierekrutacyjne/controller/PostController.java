@@ -1,11 +1,11 @@
 package pl.karnecki.zadanierekrutacyjne.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import pl.karnecki.zadanierekrutacyjne.model.Post;
 import pl.karnecki.zadanierekrutacyjne.service.PostServiceImpl;
 
@@ -15,10 +15,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/posts")
+@Slf4j
 public class PostController {
 
     private final PostServiceImpl postService;
-
 
     @Autowired
     public PostController(PostServiceImpl postService) {
@@ -26,9 +26,11 @@ public class PostController {
 
     }
 
+
     @GetMapping
     @Scheduled(cron = "0 0 */24 * * *")
     public ResponseEntity<List<Post>> getPosts() {
+        log.info("posts updated with cron");
         return new ResponseEntity<>(postService.getPosts(), HttpStatus.OK);
     }
 
