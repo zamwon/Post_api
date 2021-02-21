@@ -7,6 +7,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "userId",
@@ -14,18 +19,30 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "title",
         "body"
 })
+@Entity
 public class Post {
 
     @JsonProperty("userId")
     @JsonIgnore
     private Integer userId;
     @JsonProperty("id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @JsonProperty("title")
     private String title;
     @JsonProperty("body")
     private String body;
 
+    public Post(Integer userId, Integer id, String title, String body) {
+        this.userId = userId;
+        this.id = id;
+        this.title = title;
+        this.body = body;
+    }
+
+    public Post() {
+    }
 
     @JsonProperty("userId")
     @JsonIgnore
