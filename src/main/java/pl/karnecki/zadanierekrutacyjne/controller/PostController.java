@@ -6,9 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import pl.karnecki.zadanierekrutacyjne.model.Post;
 import pl.karnecki.zadanierekrutacyjne.service.PostServiceImpl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,9 +30,14 @@ public class PostController {
 
 
     @GetMapping
-    @Scheduled(cron = "0 0 */24 * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     public ResponseEntity<List<Post>> getPosts() {
         log.info("posts updated with cron");
+        RestTemplate restTemplate = new RestTemplate();
+        Post[] forObject = restTemplate.getForObject("https://jsonplaceholder.typicode.com/posts", Post[].class);
+
+        Arrays.stream(forObject).filter(Post::isModified);
+
         return new ResponseEntity<>(postService.getPosts(), HttpStatus.OK);
     }
 
@@ -68,6 +75,8 @@ public class PostController {
             if (post.getBody() != null) {
                 postToUpdate.setBody(post.getBody());
             }
+
+            postToUpdate.setModified(true);
 
             postService.modifyPost(postToUpdate);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
